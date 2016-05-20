@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160519154541) do
+ActiveRecord::Schema.define(version: 20160519230043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,20 @@ ActiveRecord::Schema.define(version: 20160519154541) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "casinos", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "last_start"
+    t.datetime "last_stop"
+    t.integer  "money"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "interval"
+    t.string   "status"
+    t.integer  "singleton_guard"
+  end
+
+  add_index "casinos", ["singleton_guard"], name: "index_casinos_on_singleton_guard", unique: true, using: :btree
 
   create_table "players", force: :cascade do |t|
     t.string   "name"
@@ -38,6 +52,7 @@ ActiveRecord::Schema.define(version: 20160519154541) do
     t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "casino_id"
   end
 
 end
