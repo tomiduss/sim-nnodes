@@ -15,24 +15,26 @@ class Round < ActiveRecord::Base
 
   def self.play_round(players)
 
-      round = Round.new(number: round_number, date: Time.now)
-
+      round = Round.create(number: round_number, date: Time.now)
+      casino_money = Casino.instance.money
       #jugadores ponen sus apuestas
       players.each do |player|
         bet = player.place_bet
         player.bets << bet
         round.bets << bet
+        player.save
+        round.save
       end
 
       #casino recolecta el dinero
+      puts "Casino recoleta dinero"
       round.bets.each do |b|
-        Casino.instance.money += b.amount
-        Casino.instance.save
+        casino_money += b.amount
       end
 
       #tirar la ruleta
       outcome = spin
-
+      puts "Resultado ruleta: #{outcome}"
       #pagar a jugadores que ganaron
       winner_bets = round.bets.where(color: outcome)
 
@@ -43,13 +45,15 @@ class Round < ActiveRecord::Base
         player = bet.player
         player.money += multiplier*bet.amount
         bet.win = true
-        Casino.instance.money -= multiplier*bet.amount
+        casino_money -= multiplier*bet.amount
 
         bet.save
         player.save
-        Casino.instance.save
+
       end
       round.save
+      Casino.instance.update(money: casino_money)
+
   end
 
   def self.spin

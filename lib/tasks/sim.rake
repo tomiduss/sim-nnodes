@@ -4,27 +4,25 @@ namespace :sim do
 
   task :start => :environment do
     puts 'Inicio ruleta'
-    Casino.instance.start
+    Casino.start
     interval = Casino.instance.interval
 
-    puts Casino.instance.running
 
     #while Casino.instance.running do
-    loop do
-      puts "#{Time.now}" + " - Round #{Round.round_number}"
+    while Casino.running do
 
-      players = Player.all
+      players = Player.with_money
 
       Round.play_round(players)
+      puts "#{Time.now}" + " | Round #{Round.round_number} | Casino Money = #{Casino.instance.money} | Player Count: #{players.count}"
 
-      puts "Casino Money = #{Casino.instance.money}"
-
-      sleep interval
+      sleep Casino.interval
     end
   end
 
+  desc 'Finalizar simulacion'
   task :stop => :environment do
-    Casino.instance.stop
+    Casino.stop
   end
 
 

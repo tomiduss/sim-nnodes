@@ -18,16 +18,24 @@ class Casino < ActiveRecord::Base
     end
   end
 
-  def start
-    @running = true
+  def self.start
+    instance.update(status: "open")
+    return true
   end
 
-  def stop
-    @running = false
+  def self.stop
+    instance.update(status: "closed")
+    return false
   end
 
-  def running
-    return @running
+  def self.running
+    return instance.status == "open" ? true : false
   end
+
+  def self.interval
+    return instance.interval
+  end  
+
+  private_class_method :new
 
 end

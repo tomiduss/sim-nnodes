@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520062116) do
+ActiveRecord::Schema.define(version: 20160520154744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(version: 20160520062116) do
     t.datetime "updated_at", null: false
     t.boolean  "win"
   end
+
+  add_index "bets", ["player_id"], name: "index_bets_on_player_id", using: :btree
+  add_index "bets", ["round_id"], name: "index_bets_on_round_id", using: :btree
 
   create_table "casinos", force: :cascade do |t|
     t.string   "name"
