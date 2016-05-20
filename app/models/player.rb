@@ -14,18 +14,19 @@ class Player < ActiveRecord::Base
 
     self.save
 
-    bet = {
-      "bet" => amount,
-      "color" => color_bet
-    }
+    bet = Bet.new(amount: amount, color: color_bet, win: false)
+
   end
 
   def color_bet
     n = rand(1..100)
-    if n <= 2
-      color "green"
+    color = if n <= 2
+      "green"
     elsif n > 2 and n <= 51
-      color "red"
+      "red"
     else
-      color "black"
+      "black"
+    end
+  end
+
 end
