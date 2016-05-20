@@ -28,7 +28,7 @@ num_players = 25
 #add players
 
 num_players.times do
-  #random_user(first_names, last_names)
+  random_user(first_names, last_names)
 end
 
 puts "Players created "  + "#{Player.all.count}"
