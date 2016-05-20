@@ -31,4 +31,23 @@ class Player < ActiveRecord::Base
     end
   end
 
+  # def self.test_color_bet
+  #   green = 0
+  #   red = 0
+  #   black = 0
+  #   1000000.times do
+  #     case color_bet
+  #     when "green"
+  #       green += 1
+  #     when "red"
+  #       red += 1
+  #     when "black"
+  #       black += 1
+  #     end
+  #   end
+  #
+  #   return {green: green.to_f/1000000, red: red.to_f/1000000, black: black.to_f/1000000}
+  # end
+
+
 end
