@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520154744) do
+ActiveRecord::Schema.define(version: 20160520202405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,10 @@ ActiveRecord::Schema.define(version: 20160520154744) do
     t.integer  "interval"
     t.string   "status"
     t.integer  "singleton_guard"
+    t.string   "weather"
+    t.string   "api_key"
+    t.datetime "weather_date"
+    t.boolean  "rain_forecast"
   end
 
   add_index "casinos", ["singleton_guard"], name: "index_casinos_on_singleton_guard", unique: true, using: :btree

@@ -5,12 +5,19 @@ class Player < ActiveRecord::Base
   scope :with_money, ->{ where("money > ?", 0) }
 
   def place_bet
+    #check weather
 
     if self.money < 1000
       amount = self.money
       self.money = 0
     else
-      amount = ((rand(8..15)).to_d/100*self.money).to_i
+
+      amount = if Casino.rain_forecast
+        ((rand(4..10)).to_d/100*self.money).to_i
+      else
+        ((rand(8..15)).to_d/100*self.money).to_i
+      end
+
       self.money -= amount
     end
 

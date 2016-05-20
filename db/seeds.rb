@@ -34,6 +34,8 @@ end
 puts "Players created "  + "#{Player.all.count}"
 
 #modificar intervalo (en segundos)
-casino = Casino.where(name: 'Nnodes', money: 100000000, status: 'closed', interval:3, singleton_guard: 0).first_or_create
+casino = Casino.where(name: 'Nnodes', money: 100000000, status: 'closed', interval:3, api_key: '9331b0570a8c1089395e1761cfd7a2f7',  singleton_guard: 0).first_or_create
 
 puts 'Seed finished'
+
+#{"_id":3871336,"name":"Santiago","country":"CL","coord":{"lon":-70.64827,"lat":-33.45694}}
