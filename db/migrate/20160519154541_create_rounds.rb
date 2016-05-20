@@ -4,8 +4,6 @@ class CreateRounds < ActiveRecord::Migration
       t.integer :number
       t.datetime :date
 
-      t.integer :casino_id
-
       t.timestamps null: false
     end
   end
