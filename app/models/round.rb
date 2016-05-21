@@ -2,6 +2,9 @@ class Round < ActiveRecord::Base
   has_many :bets
   has_many :players, through: :bets
 
+  scope :in_day, ->(date) { where(date: date.beginning_of_day..date.end_of_day) }
+
+
   def self.round_number
     last_round = Round.last
     number = if !last_round
@@ -34,6 +37,7 @@ class Round < ActiveRecord::Base
 
       #tirar la ruleta
       outcome = spin
+      round.result = outcome
       puts "Resultado ruleta: #{outcome}"
       #pagar a jugadores que ganaron
       winner_bets = round.bets.where(color: outcome)
@@ -54,6 +58,14 @@ class Round < ActiveRecord::Base
       round.save
       Casino.instance.update(money: casino_money)
 
+  end
+
+  def total_bets
+    total = 0
+    self.bets.each do |b|
+      total += b.amount
+    end
+    return total
   end
 
   def self.spin

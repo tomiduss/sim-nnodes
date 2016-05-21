@@ -1,2 +1,69 @@
-h1 Simulación Ruleta - nnodes
-p Casino
+.container
+  .row
+    h1 Simulación Ruleta - nnodes
+    table.table.table-bordered
+      tr
+        th Casino
+        th Hora
+        th Jugadores
+        th Activos
+        th Tiempo
+        th Posible lluvia?
+        th Status
+        -if Casino.running
+          th Fecha inicio
+        -else
+          th Fecha cierre
+        th See Player
+        th Stop
+      tr
+        td ==Casino.instance.name
+        td ==Time.now.to_formatted_s(:short)
+        td ==@players.count
+        td ==@players.with_money.count
+        td ==Casino.weather
+        td ==Casino.rain_forecast ? "Si" : "No"
+        td ==Casino.instance.status
+        -if Casino.running
+          td ==Casino.instance.last_start.to_formatted_s(:short)
+        -else
+          td ==Casino.instance.last_stop.to_formatted_s(:short)
+        td ==link_to "Players", "/players"
+        td ==link_to "stop", "/stop"
+
+  .row
+    .col-lg-7
+      table.table.table-condensed.table-hover
+        tr
+          th Fecha
+          th Numero Ronda
+          th Jugadores
+          th Total Apuestas
+          th Resultado
+          th Ver Apuestas
+        tdata
+          -@rounds.each do |r|
+            tr
+              td ==r.date.to_formatted_s(:short)
+              td ==r.number
+              td ==r.players.count
+              td ==r.total_bets
+              td ==r.result
+              td == link_to "Ver", params.merge(round_id: r.id)
+    .col-lg-5
+      table.table.table-condensed.table-hover
+        tr
+          th Jugador
+          th Ronda
+          th Apuesta
+          th Color
+          th Ganancia
+        tdata
+          -@bets.each do |b|
+            tr
+              td ==b.player.name
+              td ==b.round.number
+              td ==b.amount
+              td ==b.color
+              -multiplier = b.color == "green" ? 15 : 2
+              td == b.win ? multiplier*b.amount : 0
