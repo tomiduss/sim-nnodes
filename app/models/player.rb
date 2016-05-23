@@ -1,5 +1,5 @@
 class Player < ActiveRecord::Base
-  has_many :bets
+  has_many :bets , dependent: :destroy
   has_many :rounds, through: :bets
 
   scope :with_money, ->{ where("money > ?", 0) }
